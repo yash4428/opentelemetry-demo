@@ -40,7 +40,7 @@ module.exports.charge = async request => {
     const numberVariant = await OpenFeature.getClient().getNumberValue("paymentFailure", 0);
     const emitRawPii = await OpenFeature.getClient().getBooleanValue("emitRawPii", false);
 
-    if (numberVariant > 0) {
+    if (syntheticRequest && numberVariant > 0) {
       // n% chance to fail with demo.user_context.loyalty_level=gold
       if (Math.random() < numberVariant) {
         span.setAttributes({'demo.user_context.loyalty_level': 'gold' });
